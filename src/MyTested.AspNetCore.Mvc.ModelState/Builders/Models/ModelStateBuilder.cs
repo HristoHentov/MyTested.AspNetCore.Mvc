@@ -1,6 +1,8 @@
 ﻿namespace MyTested.AspNetCore.Mvc.Builders.Models
 {
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
+    using Base;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Microsoft.AspNetCore.Routing;
     using Contracts.Models;
@@ -10,13 +12,14 @@
     /// <summary>
     /// Used for building <see cref="ModelStateDictionary"/>
     /// </summary>
-    public class ModelStateBuilder : IAndModelStateBuilder
+    public class ModelStateBuilder : BaseTestBuilderWithActionContext, IAndModelStateBuilder
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelStateBuilder"/> class.
         /// </summary>
         /// <param name="actionContext"><see cref="ModelStateDictionary"/> to build.</param>
         public ModelStateBuilder(ActionTestContext actionContext) 
+            :base(actionContext)
             => this.ModelState = actionContext.ModelState;
 
         /// <summary>
@@ -48,7 +51,12 @@
 
             return this;
         }
-            
+
+        public IAndModelStateBuilder<TModel> For<TModel>()
+        {
+            return new ModelErrorBuilder<TModel>(this.TestContext, this.ModelState);
+        }
+
         /// <inheritdoc />
         public IModelStateBuilder AndAlso() => this;
 
