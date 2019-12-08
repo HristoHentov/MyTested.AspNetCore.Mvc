@@ -6,7 +6,6 @@
     using Internal.TestContexts;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
-    using Utilities.Extensions;
 
     public class ModelErrorBuilder<TModel> : IAndModelStateBuilder<TModel>
     {
@@ -28,16 +27,16 @@
             string errorMessage)
         {
             var body = propertySelector.Body;
-            var mem = body as MemberExpression;
-            var name = mem.Member.Name;
-            this.ModelState.AddModelError(name, errorMessage);
 
-            return this;
+            if(body is MemberExpression memberBody)
+            {
+                this.ModelState.AddModelError(memberBody.Member.Name, errorMessage);
+                return this;
+            }
+
+            throw new InvalidOperationException($"Cannot extract error key from the provided {nameof(propertySelector)}");
         }
 
-        public IAndModelStateBuilder AndAlso()
-        {
-            return new ModelStateBuilder(null);
-        }
+        public IModelErrorBuilder<TModel> AndAlso() => this;
     }
 }

@@ -10,6 +10,6 @@
         /// AndAlso method for better readability when chaining <see cref="Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary"/> error message tests.
         /// </summary>
         /// <returns>The same <see cref="IModelErrorTestBuilder{TModel}"/>.</returns>
-        IAndModelStateBuilder AndAlso();
+        IModelErrorBuilder<TModel> AndAlso();
     }
 }
