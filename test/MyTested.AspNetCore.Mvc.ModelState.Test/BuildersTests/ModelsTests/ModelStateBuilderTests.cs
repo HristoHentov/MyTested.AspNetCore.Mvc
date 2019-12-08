@@ -70,9 +70,10 @@
                 .Instance()
                 .WithModelState(modelState => modelState
                     .For<RequestModel>()
-                    .WithErrorFor(m => m.RequiredString, "")
-                    .WithErrorFor(m => m.Integer, "Bad Integer")
-                    .WithErrorFor(m => m.NotValidateInteger, "Some Erro")
+                    .WithErrorFor(m => m.RequiredString, "Missing value")
+                    .WithErrorFor(m => m.Integer, "Out of range")
+                    .WithErrorFor(m => m.NotValidateInteger, "Some Error")
+                    .WithErrorFor(m => m.NotValidateInteger, "Additonal Error")
                 )
                 .Calling(c => c.BadRequestWithModelState(requestBody))
                 .ShouldReturn()
