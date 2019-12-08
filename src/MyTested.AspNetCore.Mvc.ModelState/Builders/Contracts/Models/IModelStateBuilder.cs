@@ -28,5 +28,12 @@
         /// <param name="errors">Model state entries as anonymous object.</param>
         /// <returns></returns>
         IAndModelStateBuilder WithErrors(object errors);
+
+        /// <summary>
+        /// Specifies the model for which model state entries will be added to <see cref="Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary"/>
+        /// </summary>
+        /// <typeparam name="TModel">Model from invoked action in ASP.NET Core MVC controller.</typeparam>
+        /// <returns></returns>
+        IAndModelStateBuilder<TModel> For<TModel>();
     }
 }
